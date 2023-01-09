@@ -1,0 +1,30 @@
+﻿@page "/kanbanboard"
+
+<div class="row p-2">
+    <Dropzone Priority="TaskPriority.High" TaskItems="TaskItems" OnDrop="OnDrop" OnStartDrag="OnStartDrag"></Dropzone>
+    <Dropzone Priority="TaskPriority.Medium" TaskItems="TaskItems" OnDrop="OnDrop" OnStartDrag="OnStartDrag"></Dropzone>
+    <Dropzone Priority="TaskPriority.Low" TaskItems="TaskItems" OnDrop="OnDrop" OnStartDrag="OnStartDrag"></Dropzone>
+</div>
+
+@code {
+    public TaskItem CurrentItem;
+    List<TaskItem> TaskItems = new List<TaskItem>();
+
+    protected override void OnInitialized()
+    {
+        TaskItems.Add(new TaskItem { TaskName = "Call Mom", Priority = TaskPriority.High });
+        TaskItems.Add(new TaskItem { TaskName = "Buy milk", Priority = TaskPriority.Medium });
+        TaskItems.Add(new TaskItem { TaskName = "Exercise", Priority = TaskPriority.Low });
+    }
+
+    private void OnStartDrag(TaskItem item)
+    {
+        CurrentItem = item;
+    }
+
+    private void OnDrop(TaskPriority priority)
+    {
+        CurrentItem.Priority = priority;
+    }
+}
+
