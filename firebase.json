@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "H4TexasHoldEmV2/bin/Release/net6.0/browser-wasm/publish/wwwroot",
+    "public": "H4TexasHoldEmV2/H4TexasHoldEmV2/bin/Release/net6.0/browser-wasm/publish/wwwroot",
     "ignore": [
       "firebase.json",
       "**/.*",
