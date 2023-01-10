@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: 
           dotnet publish -c Release -o
-          H4TexasHoldEmV2/bin/Release/net6.0/blazor-wasm/publish
+          H4TexasHoldEmV2/bin/Release/net6.0/browser-wasm/publish
           H4TexasHoldEmV2/H4TexasHoldEmV2.csproj
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
