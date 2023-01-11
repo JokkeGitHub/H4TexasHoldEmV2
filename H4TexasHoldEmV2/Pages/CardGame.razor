@@ -1,0 +1,42 @@
+﻿@page "/cardgame"
+@using System.Net.Mail;
+@using System.Net;
+
+<h3>CardGame</h3>
+
+<button class="btn btn-primary" @onclick="SendMail">SendMail</button>
+<br />
+
+
+@code {
+    private string Message { get; set; } = "";
+
+    public void SendMail()
+    {
+        try
+        {
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("jokkesdummymail@gmail.com");
+                mail.To.Add("jokkesdummymail@gmail.com");
+                mail.Subject = "Sending Mail, Blazor Test";
+                mail.Body = "<h1> This is a mail body <h1>";
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 465))
+                {
+                    smtp.Credentials = new NetworkCredential("jokkesdummymail@gmail.com", "annkmqtqqxvalncn");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                    Message = "Mail Sent";
+                    Console.WriteLine(Message);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
+    }
+}
+
