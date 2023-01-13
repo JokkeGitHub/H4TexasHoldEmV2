@@ -11,7 +11,8 @@
 
     <h3>CardGame</h3>
 
-    <button class="btn btn-primary" @onclick="SendMail">SendMail</button>
+    <button class="btn btn-primary" @onclick="SendMailHttp">SendMailHttp</button>
+    <button class="btn btn-primary" @onclick="SendMailHttps">SendMailHttps</button>
     <br />
 
     <h4>Screenshot</h4>
@@ -40,7 +41,13 @@
 
     HttpContent httpContent = new StringContent("<h1>body<h1>");
 
-    private async Task SendMail()
+    private async Task SendMailHttp()
+    {
+        //192.168.43.126:7069
+        //await httpClient.SendAsync()
+        await httpClient.PostAsync(@"http://192.168.43.126:7069/Email/sendemail", httpContent);
+    }
+    private async Task SendMailHttps()
     {
         //192.168.43.126:7069
         //await httpClient.SendAsync()
