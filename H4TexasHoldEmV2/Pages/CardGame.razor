@@ -1,42 +1,50 @@
 ﻿@page "/cardgame"
-@using System.Net.Mail;
+
+@using System.Net.Http;
 @using System.Net;
 
-<h3>CardGame</h3>
+<!-- Here we use the built-in dependency injection -->
+@inject HttpClient httpClient
+@inject IJSRuntime jsRuntime
 
-<button class="btn btn-primary" @onclick="SendMail">SendMail</button>
-<br />
+<div id="cardGameContainer">
+
+    <h3>CardGame</h3>
+
+    <button class="btn btn-primary" @onclick="SendMail">SendMail</button>
+    <br />
+
+    <h4>Screenshot</h4>
+    <button type="button" class="btn btn-info" @onclick="TakeScreenshot">Take Screenshot</button>
+    <!-- NOT NECESSARY ><button type="button" class="btn btn-info" @onclick="DownloadScreenshot">Download Screenshot</button> -->
+
+    <div id="output" style="width: 50%">
+    </div>
+
+</div>
 
 
 @code {
-    private string Message { get; set; } = "";
 
-    public void SendMail()
+    public async Task TakeScreenshot()
     {
-        try
-        {
-            using (MailMessage mail = new MailMessage())
-            {
-                mail.From = new MailAddress("jokkesdummymail@gmail.com");
-                mail.To.Add("jokkesdummymail@gmail.com");
-                mail.Subject = "Sending Mail, Blazor Test";
-                mail.Body = "<h1> This is a mail body <h1>";
-                mail.IsBodyHtml = true;
+        await jsRuntime.InvokeVoidAsync("Takeshot");
+    }
 
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 465))
-                {
-                    smtp.Credentials = new NetworkCredential("jokkesdummymail@gmail.com", "annkmqtqqxvalncn");
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
-                    Message = "Mail Sent";
-                    Console.WriteLine(Message);
-                }
-            }
-        }
-        catch (Exception ex)
+    /* NOT NECESSARY
+    public async Task DownloadScreenshot()
         {
-            Message = ex.Message;
-        }
+        await jsRuntime.InvokeVoidAsync("DownloadImg");
+    }
+    */
+
+    HttpContent httpContent = new StringContent("<h1>body<h1>");
+
+    private async Task SendMail()
+    {
+        //192.168.43.126:7069
+        //await httpClient.SendAsync()
+        await httpClient.PostAsync(@"http://192.168.43.126:7069/Email/sendemail", httpContent);
     }
 }
 
