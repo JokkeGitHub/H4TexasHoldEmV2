@@ -1,0 +1,27 @@
+﻿@page "/draganddroptest"
+
+@using Microsoft.JSInterop
+
+@inject IJSRuntime jsRuntime
+
+<h3>DragAndDropTest</h3>
+
+<div draggable="true">
+    <div class="html5"> HTML5 </div>
+</div>
+
+<div class="main" width="500px" height="500px">
+    <div class="draggable">Draggable Element</div>
+</div>
+
+
+@code {
+    // This example need a dropzone
+
+
+    // This task is to make sure that everything in the component is in place
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await jsRuntime.InvokeVoidAsync("dragAndDrop", ".draggable");
+    }
+}
