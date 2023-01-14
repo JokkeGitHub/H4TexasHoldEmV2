@@ -1,5 +1,4 @@
 ﻿function dragAndDrop(className) {
-
     const position = { x: 0, y: 0 }
 
     interact(className).draggable({
@@ -14,6 +13,10 @@
                 event.target.style.transform =
                     `translate(${position.x}px, ${position.y}px)`
             },
-        }
+        }, modifiers: [
+            interact.modifiers.restrictRect({
+                restriction: '.main',
+                endOnly: true
+            })]
     })
-}
+};  
