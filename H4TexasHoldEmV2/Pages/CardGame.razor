@@ -2,6 +2,7 @@
 
 @using System.Net.Http;
 @using System.Net;
+@using Microsoft.JSInterop
 
 <!-- Here we use the built-in dependency injection -->
 @inject HttpClient httpClient
@@ -9,7 +10,52 @@
 
 <div id="cardGameContainer">
 
-    <h3>CardGame</h3>
+    <h3>@playerName</h3>
+
+
+    @if (showModal)
+    {
+        <div class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="gameTable">
+
+    </div>
+
+    <div class="playerTable">
+
+        <div class="draggable" id="card1">
+            <img id="cardPlaceholder" src="~/card_backside.png" />
+        </div>
+
+        <div class="draggable" id="card2">
+            <img id="cardPlaceholder" src="~/card_backside.png" />
+        </div>
+        
+        <div class="draggable">
+            Bananas: @bananas
+        </div>
+
+    </div>  
+    <br />
 
     <button class="btn btn-primary" @onclick="SendMailHttp">SendMailHttp</button>
     <button class="btn btn-primary" @onclick="SendMailHttps">SendMailHttps</button>
@@ -17,28 +63,22 @@
 
     <h4>Screenshot</h4>
     <button type="button" class="btn btn-info" @onclick="TakeScreenshot">Take Screenshot</button>
-    <!-- NOT NECESSARY ><button type="button" class="btn btn-info" @onclick="DownloadScreenshot">Download Screenshot</button> -->
-
     <div id="output" style="width: 50%">
     </div>
 
 </div>
 
-
 @code {
+    string playerName = "Anon";
+    bool showModal = false;
+    int bananas = 12;
 
     public async Task TakeScreenshot()
     {
         await jsRuntime.InvokeVoidAsync("Takeshot");
     }
 
-    /* NOT NECESSARY
-    public async Task DownloadScreenshot()
-        {
-        await jsRuntime.InvokeVoidAsync("DownloadImg");
-    }
-    */
-
+    // The content of the mail
     HttpContent httpContent = new StringContent("<h1>body<h1>");
 
     private async Task SendMailHttp()
@@ -52,6 +92,19 @@
         //192.168.43.126:7069
         //await httpClient.SendAsync()
         await httpClient.PostAsync(@"https://192.168.43.126:7069/Email/sendemail", httpContent);
+
+        // Error message when attempting HTTPS post to the web API, same error is cast when trying the HTTP post, but only when running locally.
+        // This is most likely because I don't have an SSL certificate
+        //Failed to load resource: net::ERR_EMPTY_RESPONSE
     }
+
+    // This task is to make sure that the html components exists before rendering the scripts
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await jsRuntime.InvokeVoidAsync("dragAndDrop", ".draggable");
+    }
+
+
 }
+
 

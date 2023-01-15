@@ -15,7 +15,7 @@
             },
         }, modifiers: [
             interact.modifiers.restrictRect({
-                restriction: '.main',
+                restriction: '.playerTable',
                 endOnly: true
             })]
     })

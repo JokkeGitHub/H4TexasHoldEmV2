@@ -16,10 +16,8 @@
 
 
 @code {
-    // This example need a dropzone
 
-
-    // This task is to make sure that everything in the component is in place
+    // This task is to make sure that the html components exists before rendering the scripts
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await jsRuntime.InvokeVoidAsync("dragAndDrop", ".draggable");
