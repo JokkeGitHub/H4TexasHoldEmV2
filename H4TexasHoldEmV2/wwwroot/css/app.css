@@ -65,25 +65,27 @@ a, .btn-link {
 
 
 .draggable {
-    width: 60px;
-    height: 90px;
-    margin: 1rem 0 0 1rem;
+    width: 80px;
+    height: 120px;
+    margin: 2px;
     background-color: blue;
     color: white;
-    border-radius: 0.75em;
-    padding: 4%;
+    border-radius: 5px;
+    padding: 2px;
     touch-action: none;
     user-select: none;
 }
 
 card1 {
-    float: left;
+    overflow: auto;
 }
 
 card2 {
+    overflow: auto;
 }
 
-bananas{
+bananas {
+    overflow: auto;
 }
 
 img {
@@ -98,4 +100,5 @@ img {
     height: 200px;
     border: 2px solid black;
     border-radius: 5px;
+    overflow: auto;
 }
