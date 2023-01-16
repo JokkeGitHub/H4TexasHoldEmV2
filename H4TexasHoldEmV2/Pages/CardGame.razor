@@ -10,53 +10,91 @@
 
 <div id="cardGameContainer">
 
-    <h3>Name: @playerName</h3>
+    <div class="gameTable">
+        <h3>Name: @playerName</h3>
 
-    <button @onclick=ShowDialogue>Change Name</button>
+        <button @onclick=ShowDialogue>Change Name</button>
 
-    @if (dialogueVisible)
-    {
-        <div class="modal fade show" style="display: block;">
-            <div class="modal-dialog">
-                <div class="modal-content">
+        @if (dialogueVisible)
+        {
+            <div class="modal fade show" style="display: block;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h5>Input your name:</h5>
+                        <div class="modal-header">
+                            <h5>Input your name:</h5>
+                        </div>
+
+                        <div class="modal-body">
+                            <input @bind="playerName" />
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" @onclick=ReturnPlayerName>Submit Name</button>
+                        </div>
+
                     </div>
-
-                    <div class="modal-body">
-                        <input @bind="playerName"/>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button"  class="btn btn-primary" @onclick=ReturnPlayerName>Save changes</button>
-                    </div>
-
                 </div>
             </div>
+        }
+
+        <div class="cardsOnTable">
+
+            <div class="cardInPlay" id="cardInPlay1">
+                @rank   <br />
+                of      <br />
+                @type   <br />
+            </div>
+
+            <div class="cardInPlay" id="cardInPlay2">
+                @rank   <br />
+                of      <br />
+                @type   <br />
+            </div>
+
+            <div class="cardInPlay" id="cardInPlay3">
+                @rank   <br />
+                of      <br />
+                @type   <br />
+            </div>
+
+            <div class="cardInPlay" id="cardInPlay4">
+                @rank   <br />
+                of      <br />
+                @type   <br />
+            </div>
+
+            <div class="cardInPlay" id="cardInPlay5">
+                @rank   <br />
+                of      <br />
+                @type   <br />
+            </div>
+
         </div>
-    }
+        <br />
 
-    <div class="gameTable">
+        <div class="playerTable">
 
+            <div class="cardInHand draggable" id="card1">
+                @rank   <br />
+                of      <br />
+                @type   <br />
+            </div>
+
+            <div class="cardInHand draggable" id="card2">
+                @rank   <br />
+                of      <br />
+                @type   <br />
+            </div>
+
+            <div class="draggable">
+                Bananas: @bananas
+            </div>
+
+        </div>
+        <br />
     </div>
 
-    <div class="playerTable">
-
-        <div class="draggable" id="card1">
-            <img id="cardPlaceholder" src="~/card_backside.png" />
-        </div>
-
-        <div class="draggable" id="card2">
-            <img id="cardPlaceholder" src="~/card_backside.png" />
-        </div>
-        
-        <div class="draggable">
-            Bananas: @bananas
-        </div>
-
-    </div>  
-    <br />
 
     <button class="btn btn-primary" @onclick="SendMailHttp">SendMailHttp</button>
     <button class="btn btn-primary" @onclick="SendMailHttps">SendMailHttps</button>
@@ -70,9 +108,20 @@
 </div>
 
 @code {
-    string playerName = "Anon";
+    string playerName = "Anon"; //Add local storage for this
     bool dialogueVisible = false;
+
+    string imgPlaceholderCard = "/card_backside.png";
+    string rank = "Ace";
+    string type = "Spades";
+    // Add rank and type for all 7 cards
+
+    // Add a listview with some data
+
+    string imgPlaceHolderBanana = "";
     int bananas = 12;
+
+
 
     void ReturnPlayerName()
     {
@@ -94,26 +143,6 @@
         await jsRuntime.InvokeVoidAsync("Takeshot");
     }
 
-    // The content of the mail
-    HttpContent httpContent = new StringContent("<h1>body<h1>");
-
-    private async Task SendMailHttp()
-    {
-        //192.168.43.126:7069
-        //await httpClient.SendAsync()
-        await httpClient.PostAsync(@"http://192.168.43.126:7069/Email/sendemail", httpContent);
-    }
-    private async Task SendMailHttps()
-    {
-        //192.168.43.126:7069
-        //await httpClient.SendAsync()
-        await httpClient.PostAsync(@"https://192.168.43.126:7069/Email/sendemail", httpContent);
-
-        // Error message when attempting HTTPS post to the web API, same error is cast when trying the HTTP post, but only when running locally.
-        // This is most likely because I don't have an SSL certificate
-        //Failed to load resource: net::ERR_EMPTY_RESPONSE
-    }
-
     // This task is to make sure that the html components exists before rendering the scripts
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -121,6 +150,21 @@
     }
 
 
+    #region API SENDEMAIL POST FIX IT
+    // The content of the mail
+    HttpContent httpContent = new StringContent("<h1>body<h1>");
+
+    private async Task SendMailHttp()
+    {
+        //Can't connect for some reason
+        await httpClient.PostAsync(@"http://10.108.162.36:7069/Email/sendemail", httpContent);
+    }
+    private async Task SendMailHttps()
+    {
+        //Can't connect for some reason
+        await httpClient.PostAsync(@"https://10.108.162.36:7069/Email/sendemail", httpContent);
+    }
+    #endregion
 }
 
 
