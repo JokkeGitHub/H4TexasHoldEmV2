@@ -1,8 +1,11 @@
 ﻿@page "/cardgame"
 
+@using System.Net.WebSockets;
+@using System.Runtime.CompilerServices;
+@using System.Text;
 @using System.Net.Http;
 @using System.Net;
-@using Microsoft.JSInterop
+@using Microsoft.JSInterop;
 
 <!-- Here we use the built-in dependency injection -->
 @inject HttpClient httpClient
@@ -70,6 +73,10 @@
                 @type   <br />
             </div>
 
+            <div>
+                @bananaPool
+            </div>
+
         </div>
         <br />
 
@@ -88,7 +95,7 @@
             </div>
 
             <div class="draggable">
-                Bananas: @bananas
+                Bananas: @bananasPlayer
             </div>
 
         </div>
@@ -116,10 +123,13 @@
     string type = "Spades";
     // Add rank and type for all 7 cards
 
-    // Add a listview with some data
+    // Add a listview with some data, maybe the messages from game engine?? Or the player and their bananas
+    //Add messages from game engine
+
 
     string imgPlaceHolderBanana = "";
-    int bananas = 12;
+    int bananasPlayer = 12;
+    int bananaPool = 42;
 
 
 
@@ -138,7 +148,7 @@
         dialogueVisible = false;
     }
 
-    public async Task TakeScreenshot()
+    private async Task TakeScreenshot()
     {
         await jsRuntime.InvokeVoidAsync("Takeshot");
     }
@@ -157,14 +167,12 @@
     private async Task SendMailHttp()
     {
         //Can't connect for some reason
-        await httpClient.PostAsync(@"http://10.108.162.36:7069/Email/sendemail", httpContent);
+        await httpClient.PostAsync(@"http://192.168.43.126:7069/Email/sendemail", httpContent);
     }
     private async Task SendMailHttps()
     {
         //Can't connect for some reason
-        await httpClient.PostAsync(@"https://10.108.162.36:7069/Email/sendemail", httpContent);
+        await httpClient.PostAsync(@"https://192.168.43.126:7069/Email/sendemail", httpContent);
     }
     #endregion
 }
-
-
