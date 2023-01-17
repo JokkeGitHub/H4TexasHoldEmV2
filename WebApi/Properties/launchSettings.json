@@ -25,7 +25,7 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://192.168.43.126:51821",
-      "sslPort": 0
+      "sslPort": 44321
     }
   }
 }

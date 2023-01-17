@@ -179,7 +179,7 @@
     {
         //This seems to be an SSL issure// net::ERR_CERT_COMMON_NAME_INVALID
         // with SSL port 44321 // net::ERR_CONNECTION_REFUSED
-        await httpClient.PostAsync(@"https://192.168.43.126:7069/Email/sendemail", httpContent);
+        await httpClient.PostAsync(@"https://192.168.43.126:44321/Email/sendemail", httpContent);
     }
     #endregion
 }
