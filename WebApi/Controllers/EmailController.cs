@@ -8,7 +8,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmailController : ControllerBase
+    public class EmailController : Controller
     {
         [HttpPost]
         [Route("sendemail")]
