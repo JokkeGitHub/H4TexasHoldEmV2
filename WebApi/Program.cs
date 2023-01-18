@@ -15,13 +15,13 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder
-                          //.WithOrigins("http://jokke-blazor.web.app/cardgame", "https://jokke-blazor.web.app/cardgame");
-                          
+                            //.WithOrigins("http://jokke-blazor.web.app/cardgame", "https://jokke-blazor.web.app/cardgame");
+
                             //.WithOrigins("http://localhost:5000", "https://localhost:5001")
                             .AllowAnyMethod()
                             .AllowAnyOrigin()
-                            .AllowAnyHeader()
-                            .SetIsOriginAllowed(_ => true); 
+                            .AllowAnyHeader();
+                            //.SetIsOriginAllowed(_ => true); 
                       });
 });
 

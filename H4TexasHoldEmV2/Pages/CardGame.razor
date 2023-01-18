@@ -163,23 +163,28 @@
     #region API SENDEMAIL POST FIX IT
     // The content of the mail
     HttpContent httpContent = new StringContent("<h1>body<h1>");
+    //string httpContent = "<h1>body<h1>";
     //192.168.43.126
     //0.0.0.0
     //localhost
+    //10.108.162.69
     //https://192.168.43.126:7069/swagger/index.html
     //https://192.168.43.126:7069/swagger
-
+    //http://10.108.162.69:5034/swagger/index.html
 
     private async Task SendMailHttp()
     {
         // Don't like HTTP // This request has been blocked; the content must be served over HTTPS.
-        await httpClient.PostAsync(@"http://192.168.43.126:51821/Email/sendemail", httpContent);
+        //await httpClient.PostAsync(@"http://10.108.162.69:5030/Email/sendemail", httpContent);
+        //await httpClient.PostAsJsonAsync(@"http://10.108.162.69:5030/Email/sendemail", httpContent);
+        //await httpClient.PostAsJsonAsync(@"http://10.108.162.69:5034/Email/sendemail", httpContent);
+        await httpClient.PostAsync(@"http://10.108.162.69:5034/Email/sendemail", httpContent);
     }
     private async Task SendMailHttps()
     {
-        //This seems to be an SSL issure// net::ERR_CERT_COMMON_NAME_INVALID
-        // with SSL port 44321 // net::ERR_CONNECTION_REFUSED
-        await httpClient.PostAsync(@"https://192.168.43.126:44321/Email/sendemail", httpContent);
+        //This seems to be an SSL issue// net::ERR_CERT_COMMON_NAME_INVALID
+        // with SSL port 44321 / 51821 // net::ERR_CONNECTION_REFUSED
+        //await httpClient.PostAsync(@"https://10.108.162.69:7069/Email/sendemail", httpContent);
     }
     #endregion
 }

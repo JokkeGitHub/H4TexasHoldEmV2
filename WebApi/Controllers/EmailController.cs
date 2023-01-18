@@ -11,7 +11,7 @@ namespace WebApi.Controllers
     public class EmailController : Controller
     {
         [HttpPost]
-        [Route("sendemail")]
+        [Route("sendemail/{body}")]
         public IActionResult SendEmail(string body)
         {
             var email = new MimeMessage();
@@ -25,6 +25,27 @@ namespace WebApi.Controllers
             smtp.Authenticate("jokkesdummymail@gmail.com", "annkmqtqqxvalncn");
             smtp.Send(email);
             smtp.Disconnect(true);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("test/{body}")]
+        public IActionResult SendEmail(int body)
+        {
+            /*
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse("jokkesdummymail@gmail.com"));
+            email.To.Add(MailboxAddress.Parse("joac3146@zbc.dk"));
+            email.Subject = "Test Email Subject";
+            //email.Body = new TextPart(TextFormat.Html) { Text = body };
+
+
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("jokkesdummymail@gmail.com", "annkmqtqqxvalncn");
+            smtp.Send(email);
+            smtp.Disconnect(true);*/
 
             return Ok();
         }
